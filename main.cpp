@@ -1,13 +1,15 @@
+#include <algorithm>
+#include <iterator>
 #include <iostream>
 #include <string>
 #include <random>
 #include <vector>
 
-std::vector<std::string> mixItUp(std::vector<std::string> vec){
+std::vector<std::string> mixItUp(std::vector<std::string> vec) {
     std::vector<std::string> retVec { };
     std::random_device seedgenerator;
     std::mt19937 numbergenerator(seedgenerator());
-    std::uniform_int_distribution<> distributor(0, vec.size());
+    std::uniform_int_distribution<> distributor(0, vec.size()-1);
     for (std::size_t i = 0; i < vec.size(); ++i){
         retVec.push_back(vec[distributor(numbergenerator)]);
     }
@@ -27,34 +29,33 @@ private:
     std::vector<std::string> _wrongAnswers;
     std::string _rightAnswer;
 public:
-    int indexOfRightAnswer = -1;
+    std::vector<std::string> AllAnswers;
     Question(QuestionType questiontype, std::vector<std::string> wronganswers, std::string rightanswer) {
         _questionType = questiontype;
         _wrongAnswers = wronganswers;
         _rightAnswer = rightanswer;
+        AllAnswers = std::vector(_wrongAnswers);
+        AllAnswers.push_back(_rightAnswer);
     }
 
-    std::vector<std::string> MixUpAnswers() {
-        std::vector<std::string> copy = _wrongAnswers;
-        copy.push_back(_rightAnswer);
-        return mixItUp(copy);
+    int GetIndexOfRightAnswer() {
+        // I use std::difference instead of subtracting the iterators because this produces an integer and subtracting doesn't
+        return std::difference(AllAnswers.begin(), std::find(AllAnswers.begin(), AllAnswers.end(), _rightAnswer);
     }
 };
 
 class Quiz {
 public:
-    Quiz(std::vector<Question> questions);
+    std::vector<Question> Questions;
+    Quiz(std::vector<Question> questions) {
+        Questions = questions;
+    }
 };
 
 int main() {
-    std::vector<std::string> vec{"abc", "fdf", "dfs", "vcx", "löd", "yxb"};
-    std::vector<std::string> vec2 = mixItUp(vec);
-    for (std::string s : vec){
-        std::cout << s << '\n';
-    }
-    std::cout << "\n\n";
-    for (std::string s : vec2){
-        std::cout << s << '\n';
-    }
+    /*
+     * TODO: Use stuff from ./examplequizzes as tests
+     *
+    */
     return 0;
 }
