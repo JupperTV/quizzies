@@ -20,7 +20,7 @@ sudo apt install libjsoncpp-dev
 
 #### vcpkg
 
-1. Install vcpkg [here](https://httpbin.org/get)
+1. Install vcpkg [here](TODO)
 2. ```vcpkg install JSON/Value.h```
 
 #### CMake
