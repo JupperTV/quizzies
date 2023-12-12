@@ -1,19 +1,16 @@
 #include <algorithm>
+#include <fstream>
 #include <iterator>
 #include <iostream>
+#include <json/value.h>
 #include <string>
 #include <random>
 #include <vector>
 
 std::vector<std::string> mixItUp(std::vector<std::string> vec) {
-    std::vector<std::string> retVec { };
-    std::random_device seedgenerator;
-    std::mt19937 numbergenerator(seedgenerator());
-    std::uniform_int_distribution<> distributor(0, vec.size()-1);
-    for (std::size_t i = 0; i < vec.size(); ++i){
-        retVec.push_back(vec[distributor(numbergenerator)]);
-    }
-    return retVec;
+    auto rng = std::default_random_engine {};
+    std::shuffle(std::begin(vec), std::end(vec), rng);
+    return vec;
 }
 
 enum QuestionType {
@@ -30,32 +27,56 @@ private:
     std::string _rightAnswer;
 public:
     std::vector<std::string> AllAnswers;
-    Question(QuestionType questiontype, std::vector<std::string> wronganswers, std::string rightanswer) {
+    std::string QuestionSentence;
+    Question(QuestionType questiontype, std::string question,
+            std::vector<std::string> wronganswers, std::string rightanswer) {
         _questionType = questiontype;
         _wrongAnswers = wronganswers;
         _rightAnswer = rightanswer;
+        QuestionSentence = question;
         AllAnswers = std::vector(_wrongAnswers);
         AllAnswers.push_back(_rightAnswer);
+        AllAnswers = mixItUp(AllAnswers);
     }
 
     int GetIndexOfRightAnswer() {
-        // I use std::difference instead of subtracting the iterators because this produces an integer and subtracting doesn't
-        return std::difference(AllAnswers.begin(), std::find(AllAnswers.begin(), AllAnswers.end(), _rightAnswer);
+         return std::find(AllAnswers.begin(), AllAnswers.end(), _rightAnswer) - AllAnswers.begin();
     }
 };
 
 class Quiz {
-public:
+public: 
     std::vector<Question> Questions;
-    Quiz(std::vector<Question> questions) {
+    Quiz(std::vector<Question> questions){
         Questions = questions;
     }
 };
 
-int main() {
-    /*
-     * TODO: Use stuff from ./examplequizzes as tests
-     *
-    */
+// Json::Value LoadJson(const char filename[]){
+//     std::ifstream inputFileStream(filename, std::ifstream::binary);
+//     Json::Value json;
+//     inputFileStream >> json;
+//     return json;
+// }
+
+void DoTestWithTestQuizzes() {
+    
+}
+
+int main(int argc, char **argv) {
+    Question q1 = Question(MultipleChoice, "What is the shape of the earth?",
+            std::vector<std::string> {"Flat", "Odd", "Triangular"}, "Round");
+    Question q2 = Question(MultipleChoice, "What is the shape of the sun?",
+            std::vector<std::string> {"Odd", "Triangular", "Flat"}, "Round");
+    std::vector<Question> questions = {q1, q2};
+    Quiz qz = Quiz(questions);
+    for (Question question : qz.Questions) {
+        std::cout << question.QuestionSentence << "\n";
+        for (std::string answer : question.AllAnswers) {
+            std::cout << "\t" << answer << "\n";
+        }
+        std::cout << '(' << question.GetIndexOfRightAnswer() << ")\n";
+    }
+    // TODO: Use stuff from ./examplequizzes as tests
     return 0;
 }

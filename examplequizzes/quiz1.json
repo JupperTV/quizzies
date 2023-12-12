@@ -1,3 +1,16 @@
 {
-    "description": "TODO"
+    "Who created C++?":
+    {
+        "Dennis Ritchie": false,
+        "Bjarne Stroustrup": true,
+        "Björn Strausstrup": false,
+        "John McCarthy": false
+    },
+    "When was C++ released":
+    {
+        "1981": false,
+        "1982": false,
+        "1983": true,
+        "1984": false
+    }
 }
