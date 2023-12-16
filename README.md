@@ -20,7 +20,8 @@ sudo apt install libjsoncpp-dev
 
 #### vcpkg
 
-1. Install vcpkg [here](TODO)
+1. Install [Visual Studio](https://visualstudio.microsoft.com/de/downloads/) or [Visual Studio Build Tools](https://visualstudio.microsoft.com/de/downloads/#build-tools-for-visual-studio-2022)
+1. Install vcpkg
 2. ```vcpkg install JSON/Value.h```
 
 #### CMake
