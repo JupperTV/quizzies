@@ -2,7 +2,8 @@
 #include <fstream>
 #include <iterator>
 #include <iostream>
-#include <json/value.h>
+// #include <nlohmann/json.hpp>
+#include "include/json.hpp"
 #include <string>
 #include <random>
 #include <vector>
@@ -52,18 +53,11 @@ public:
     }
 };
 
-// Json::Value LoadJson(const char filename[]){
-//     std::ifstream inputFileStream(filename, std::ifstream::binary);
-//     Json::Value json;
-//     inputFileStream >> json;
-//     return json;
-// }
-
 void DoTestWithTestQuizzes() {
     
 }
 
-int main(int argc, char **argv) {
+void ExampleQuizzes(){
     Question q1 = Question(MultipleChoice, "What is the shape of the earth?",
             std::vector<std::string> {"Flat", "Odd", "Triangular"}, "Round");
     Question q2 = Question(MultipleChoice, "What is the shape of the sun?",
@@ -78,5 +72,16 @@ int main(int argc, char **argv) {
         std::cout << '(' << question.GetIndexOfRightAnswer() << ")\n";
     }
     // TODO: Use stuff from ./examplequizzes as tests
+}
+
+
+using json = nlohmann::json;
+json LoadJson(const char filename[]){
+    return json::parse(std::ifstream(filename));
+}
+
+int main(int argc, char **argv) {
+    json quiz = LoadJson("layoutForQuestions.json");
+
     return 0;
 }
