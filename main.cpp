@@ -2,11 +2,12 @@
 #include <fstream>
 #include <iterator>
 #include <iostream>
-// #include <nlohmann/json.hpp>
-#include "include/json.hpp"
+#include <filesystem>
 #include <string>
 #include <random>
 #include <vector>
+
+#include "include/json.hpp"
 
 std::vector<std::string> mixItUp(std::vector<std::string> vec) {
     auto rng = std::default_random_engine {};
@@ -14,10 +15,19 @@ std::vector<std::string> mixItUp(std::vector<std::string> vec) {
     return vec;
 }
 
+// TODO
+bool OSIsWindows(){
+    #ifdef _WIN32 || _WIN64 || __CYGWIN__
+    return true;
+    #else
+    return false;
+    #endif
+}
+
 enum QuestionType {
-    MultipleChoice,
+    MultipleChoice,  // TODO: Make Example Questions of this type
     TrueOrFalse,
-    Estimation
+    Estimation  // TODO: Make Example Questions of this type
 };
 
 // Could also be a struct
@@ -53,35 +63,14 @@ public:
     }
 };
 
-void DoTestWithTestQuizzes() {
-    
-}
-
-void ExampleQuizzes(){
-    Question q1 = Question(MultipleChoice, "What is the shape of the earth?",
-            std::vector<std::string> {"Flat", "Odd", "Triangular"}, "Round");
-    Question q2 = Question(MultipleChoice, "What is the shape of the sun?",
-            std::vector<std::string> {"Odd", "Triangular", "Flat"}, "Round");
-    std::vector<Question> questions = {q1, q2};
-    Quiz qz = Quiz(questions);
-    for (Question question : qz.Questions) {
-        std::cout << question.QuestionSentence << "\n";
-        for (std::string answer : question.AllAnswers) {
-            std::cout << "\t" << answer << "\n";
-        }
-        std::cout << '(' << question.GetIndexOfRightAnswer() << ")\n";
-    }
-    // TODO: Use stuff from ./examplequizzes as tests
-}
-
-
 using json = nlohmann::json;
-json LoadJson(const char filename[]){
-    return json::parse(std::ifstream(filename));
+
+void UseTestQuizzes() {
+
 }
 
 int main(int argc, char **argv) {
-    json quiz = LoadJson("layoutForQuestions.json");
-
+    json quiz = json::parse(std::ifstream("layoutForQuestions.json"));
+    // std::filesystem::
     return 0;
 }

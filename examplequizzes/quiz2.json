@@ -1,0 +1,18 @@
+{
+    "Who developed C?":
+    {
+        "_type": "MultipleChoice",
+        "Dennis Ritchie": true,
+        "Anders Hejlsberg": false,
+        "Martin Richards": false,
+        "John McCarthy": false
+    },
+    "When was C released":
+    {
+        "_type": "MultipleChoice",
+        "1969": false,
+        "1970": false,
+        "1971": false,
+        "1972": true
+    }
+}
