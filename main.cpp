@@ -7,10 +7,9 @@
 #include <random>
 #include <vector>
 
+#include <typeinfo>
+
 #include "include/json.hpp"
-
-
-constexpr int ARGC_WHEN_NO_ARGUMENTS = 1;
 
 
 std::vector<std::string> mixItUp(std::vector<std::string> vec) {
@@ -82,16 +81,31 @@ void UseTestQuizzes() {
     std::string exampleQuizPath  = "./examplequizzes";
     json exampleQuiz1 = json::parse(std::ifstream(exampleQuizPath + "/quiz1.json"));
     json exampleQuiz2 = json::parse(std::ifstream(exampleQuizPath + "/quiz2.json"));
-    
-    for(auto Question : exampleQuiz1) {
-        for(auto Answer : Question){
-            // TODO: Find out, how to display the Keys
-            std::cout << Answer << "\n";
-        }
-        std::cout << "\n";
-    }
-}
 
+    for (auto& [question, answers] : exampleQuiz1.items()){
+        int indexCorrectAnswer;
+        std::string correctAnswer;
+        int answerNumber = 0;
+        std::cout << question << '\n';
+        for (auto& [answer, answerIsCorrect] : answers.items()){
+            ++answerNumber;
+            std::cout << answerNumber << ". " << answer << '\n';
+            if (answerIsCorrect) {
+                indexCorrectAnswer = answerNumber;
+                correctAnswer = answer;
+            }
+        }
+        int userInput;
+        std::cout << "Deine Lösung: ";
+        std::cin >> userInput;
+        if (userInput == indexCorrectAnswer) {
+            std::cout << "Korrekt!" << "\n\n";
+        } else {
+            std::cout << "Falsch!\nRichtige Lösung: " << indexCorrectAnswer << ". " << correctAnswer << "\n\n";
+        }
+    }
+    std::cout << "\n\n----QUIZ ENDE----\n\n";
+}
 
 
 void CheckArgv(int argc, char **argv) {
@@ -101,6 +115,7 @@ void CheckArgv(int argc, char **argv) {
     }
 }
 
+constexpr int ARGC_WHEN_NO_ARGUMENTS = 1;
 
 int main(int argc, char **argv) {
     if (argc > ARGC_WHEN_NO_ARGUMENTS) {
