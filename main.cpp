@@ -67,22 +67,25 @@ public:
     }
 };
 
+
+/*
+ * The classes Quiz, Question, and the enum QuestionType exists for the creation of quizzes
+*/
+
 using json = nlohmann::json;
 
 // Can't name the parameter "json" because json is already defined as a type above
 // The Json needs to be a valid quiz
 bool JsonIsValidQuiz(json jsonObject) {
     // TODO
-    return false;
+    return true;
 }
 
-void UseTestQuizzes() {
-    // TODO
-    std::string exampleQuizPath  = "./examplequizzes";
-    json exampleQuiz1 = json::parse(std::ifstream(exampleQuizPath + "/quiz1.json"));
-    json exampleQuiz2 = json::parse(std::ifstream(exampleQuizPath + "/quiz2.json"));
-
-    for (auto& [question, answers] : exampleQuiz1.items()){
+void RunQuiz(json quiz){
+    if (!JsonIsValidQuiz(quiz)) {
+        return;
+    }
+    for (auto& [question, answers] : quiz.items()){
         int indexCorrectAnswer;
         std::string correctAnswer;
         int answerNumber = 0;
@@ -96,32 +99,41 @@ void UseTestQuizzes() {
             }
         }
         int userInput;
-        std::cout << "Deine Lösung: ";
+        std::cout << "Enter the number of your answer: ";
         std::cin >> userInput;
         if (userInput == indexCorrectAnswer) {
-            std::cout << "Korrekt!" << "\n\n";
+            std::cout << "Correct Answer!" << "\n\n";
         } else {
-            std::cout << "Falsch!\nRichtige Lösung: " << indexCorrectAnswer << ". " << correctAnswer << "\n\n";
+            std::cout << "Wrong!\nCorrect Answer: " << indexCorrectAnswer << ". " << correctAnswer << "\n\n";
         }
     }
-    std::cout << "\n\n----QUIZ ENDE----\n\n";
+    std::cout << "\n\n----QUIZ END----\n\n";
 }
 
+json loadJsonFromFile(std::string path) {
+    return json::parse(std::ifstream(path));
+}
 
-void CheckArgv(int argc, char **argv) {
-    if (argv[1] == "-h"){
-        // TODO: Make a better help page
-        std::cout << "Usage: ./quizzies [<path>]\n\nPlay a Quiz with the json ";
-    }
+void UseTestQuizzes() {
+    std::string exampleQuizPath  = "./examplequizzes";
+    json exampleQuiz1 = loadJsonFromFile(exampleQuizPath + "/quiz1.json");
+    json exampleQuiz2 = loadJsonFromFile(exampleQuizPath + "/quiz2.json");
+    std::cout << "RUNNING exampleQuiz1:\n\n";
+    RunQuiz(exampleQuiz1);
+    std::cout << "RUNNING exampleQuiz2:\n\n";
+    RunQuiz(exampleQuiz2);
 }
 
 constexpr int ARGC_WHEN_NO_ARGUMENTS = 1;
 
 int main(int argc, char **argv) {
-    if (argc > ARGC_WHEN_NO_ARGUMENTS) {
-        CheckArgv(argc, argv);
-    } else {
+    if (argv[1] == "-h"){
+        // TODO: Make a better help page
+        std::cout << "Usage: ./quizzies [<path>]\n\nPlay a Quiz with the json ";
+    } else if (argc > ARGC_WHEN_NO_ARGUMENTS) {
         UseTestQuizzes();
+    } else {
+        RunQuiz(loadJsonFromFile(argv[1]));
     }
 
     return 0;
