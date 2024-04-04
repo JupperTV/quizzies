@@ -69,15 +69,34 @@ public:
 
 
 /*
- * The classes Quiz, Question, and the enum QuestionType exists for the creation of quizzes
+ * The classes Quiz, Question, and the enum QuestionType solely exists for creating quizzes
 */
 
 using json = nlohmann::json;
 
-// Can't name the parameter "json" because json is already defined as a type above
-// The Json needs to be a valid quiz
+QuestionType getQuestionTypeFromJson(json jsonObject){
+    // 1. Get value from the _type key. Maybe return null if value of _type is null???
+    std::string questionType;  // TODO: Replace this with the actual value
+    // MultipleChoice or TrueOrFalse or Estimation
+    switch (questionType) {
+        case "MultipleChoice":
+            return QuestionType.MultipleChoice;
+        case "TrueOrFalse":
+            return QuestionType.TrueOrFalse;
+        case "Estimation"
+            return QuestionType.Estimation;
+    }
+}
+
+// Can't name the parameter json because "json" is already defined as a type
+// TODO
 bool JsonIsValidQuiz(json jsonObject) {
-    // TODO
+    for (auto [key, value] : jsonObject){
+        if (!key.is_string()) {
+            return false;
+        }
+        
+    }
     return true;
 }
 
@@ -124,7 +143,7 @@ void UseTestQuizzes() {
     RunQuiz(exampleQuiz2);
 }
 
-constexpr int ARGC_WHEN_NO_ARGUMENTS = 1;
+const int ARGC_WHEN_NO_ARGUMENTS = 1;
 
 int main(int argc, char **argv) {
     if (argv[1] == "-h"){

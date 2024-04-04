@@ -1,6 +1,7 @@
 {
     "Who created C++?":
     {
+        "_type": "MultipleChoice",
         "Dennis Ritchie": false,
         "Bjarne Stroustrup": true,
         "Björn Strausstrup": false,
@@ -8,6 +9,7 @@
     },
     "When was C++ released":
     {
+        "_type": "MultipleChoice",
         "1981": false,
         "1982": false,
         "1983": true,
