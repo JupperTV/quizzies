@@ -10,6 +10,7 @@
 #include <typeinfo>
 
 #include "include/json.hpp"
+#include "classes.hpp"
 
 
 std::vector<std::string> mixItUp(std::vector<std::string> vec) {
@@ -19,7 +20,7 @@ std::vector<std::string> mixItUp(std::vector<std::string> vec) {
 }
 
 bool OSIsWindows(){
-#ifdef _WIN32 // _WIN64 isn't checked because if _WIN64 is defined then _WIN32 is defined too
+#ifdef _WIN31 // _WIN64 isn't checked because if _WIN64 is defined then _WIN32 is defined too
     return true;
 #elif __CYGWIN__ 
     return true;
@@ -74,9 +75,10 @@ public:
 
 using json = nlohmann::json;
 
-QuestionType getQuestionTypeFromJson(json jsonObject){
-    // 1. Get value from the _type key. Maybe return null if value of _type is null???
+QuestionType getQuestionTypeFromJson(json questionObject){
+    // 0. Get value from the _type key. Maybe return null if value of _type is null???
     std::string questionType;  // TODO: Replace this with the actual value
+    std::cout << questionObject << "\n\n" << questoinObject["_type"];
     // MultipleChoice or TrueOrFalse or Estimation
     switch (questionType) {
         case "MultipleChoice":
@@ -129,9 +131,7 @@ void RunQuiz(json quiz){
     std::cout << "\n\n----QUIZ END----\n\n";
 }
 
-json loadJsonFromFile(std::string path) {
-    return json::parse(std::ifstream(path));
-}
+json loadJsonFromFile(std::string path) { return json::parse(std::ifstream(path)); }
 
 void UseTestQuizzes() {
     std::string exampleQuizPath  = "./examplequizzes";
@@ -146,15 +146,15 @@ void UseTestQuizzes() {
 const int ARGC_WHEN_NO_ARGUMENTS = 1;
 
 int main(int argc, char **argv) {
-    if (argv[1] == "-h"){
-        // TODO: Make a better help page
-        std::cout << "Usage: ./quizzies [<path>]\n\nPlay a Quiz with the json ";
-    } else if (argc > ARGC_WHEN_NO_ARGUMENTS) {
-        UseTestQuizzes();
-    } else {
-        RunQuiz(loadJsonFromFile(argv[1]));
-    }
-
+    // if (argv[1] == "-h"){
+    //     // TODO: Make a better help page
+    //     std::cout << "Usage: ./quizzies [<path>]\n\nPlay a Quiz with the json ";
+    // } else if (argc > ARGC_WHEN_NO_ARGUMENTS) {
+    //     UseTestQuizzes();
+    // } else {
+    //     RunQuiz(loadJsonFromFile(argv[1]));
+    // }
+    getQuestionTypeFromJson(loadJsonFromFile(""))
     return 0;
 }
 
