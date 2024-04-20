@@ -1,0 +1,65 @@
+In file included from main.cpp:13:
+classes.hpp: In constructor 'Question::Question(QuestionType, std::string, std::vector<std::basic_string<char>, std::allocator<std::basic_string<char> > >, std::string)':
+classes.hpp:28:22: error: 'mixItUp' was not declared in this scope
+   28 |         AllAnswers = mixItUp(AllAnswers);
+      |                      ^~~~~~~
+main.cpp: At global scope:
+main.cpp:32:6: error: multiple definition of 'enum QuestionType'
+   32 | enum QuestionType {
+      |      ^~~~~~~~~~~~
+In file included from main.cpp:13:
+classes.hpp:5:6: note: previous definition here
+    5 | enum QuestionType {
+      |      ^~~~~~~~~~~~
+main.cpp:39:7: error: redefinition of 'class Question'
+   39 | class Question {
+      |       ^~~~~~~~
+In file included from main.cpp:13:
+classes.hpp:12:7: note: previous definition of 'class Question'
+   12 | class Question {
+      |       ^~~~~~~~
+main.cpp:63:7: error: redefinition of 'class Quiz'
+   63 | class Quiz {
+      |       ^~~~
+In file included from main.cpp:13:
+classes.hpp:36:7: note: previous definition of 'class Quiz'
+   36 | class Quiz {
+      |       ^~~~
+main.cpp: In function 'QuestionType getQuestionTypeFromJson(json)':
+main.cpp:81:46: error: 'questoinObject' was not declared in this scope; did you mean 'questionObject'?
+   81 |     std::cout << questionObject << "\n\n" << questoinObject["_type"];
+      |                                              ^~~~~~~~~~~~~~
+      |                                              questionObject
+main.cpp:83:13: error: switch quantity not an integer
+   83 |     switch (questionType) {
+      |             ^~~~~~~~~~~~
+main.cpp:85:32: error: expected primary-expression before '.' token
+   85 |             return QuestionType.MultipleChoice;
+      |                                ^
+main.cpp:87:32: error: expected primary-expression before '.' token
+   87 |             return QuestionType.TrueOrFalse;
+      |                                ^
+main.cpp:88:26: error: expected ':' before 'return'
+   88 |         case "Estimation"
+      |                          ^
+      |                          :
+   89 |             return QuestionType.Estimation;
+      |             ~~~~~~
+main.cpp:89:32: error: expected primary-expression before '.' token
+   89 |             return QuestionType.Estimation;
+      |                                ^
+main.cpp: In function 'bool JsonIsValidQuiz(json)':
+main.cpp:96:15: error: cannot decompose inaccessible member 'nlohmann::json_abi_v3_11_3::basic_json<>::m_data' of 'nlohmann::json_abi_v3_11_3::basic_json<>'
+   96 |     for (auto [key, value] : jsonObject){
+      |               ^~~~~~~~~~~~
+In file included from main.cpp:12:
+include/json.hpp:23522:10: note: declared private here
+23522 |     data m_data = {};
+      |          ^~~~~~
+main.cpp: In function 'int main(int, char**)':
+main.cpp:157:50: error: expected ';' before 'return'
+  157 |     getQuestionTypeFromJson(loadJsonFromFile(""))
+      |                                                  ^
+      |                                                  ;
+  158 |     return 0;
+      |     ~~~~~~

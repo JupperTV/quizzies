@@ -1,3 +1,15 @@
+#pragma once
+
+/*
+ * The classes Quiz, Question, and the enum QuestionType solely exists for creating quizzes
+*/
+
+
+std::vector<std::string> mixItUp(std::vector<std::string> vector) {
+    auto rng = std::default_random_engine {};
+    std::shuffle(std::begin(vector), std::end(vector), rng);
+    return vector;
+}
 
 enum QuestionType {
     MultipleChoice,  // TODO: Make Example Questions of this type
@@ -39,6 +51,3 @@ public:
 };
 
 
-/*
- * The classes Quiz, Question, and the enum QuestionType solely exists for creating quizzes
-*/
