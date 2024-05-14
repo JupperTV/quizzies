@@ -35,15 +35,16 @@ QuestionType getQuestionTypeFromJson(json questionObject){
     std::string questionType;  // TODO: Replace this with the actual value
     std::cout << questionObject << "\n\n" << questionObject["_type"];
     // MultipleChoice or TrueOrFalse or Estimation
-    switch (questionType) {
-        case "MultipleChoice":
-            return MultipleChoice;
-        case "TrueOrFalse":
-            return TrueOrFalse;
-        case "Estimation":
+    if (questionType == "Estimation") {
             return Estimation;
     }
-    return NULL;
+    else if (questionType == "MultipleChoice") {
+            return MultipleChoice;
+    }
+    else if (questionType == "TrueOrFalse") {
+            return TrueOrFalse;
+    }
+    return NONE;
 }
 
 // Can't name the parameter json because "json" is already defined as a type
@@ -110,7 +111,7 @@ int main(int argc, char **argv) {
     // } else {
     //     RunQuiz(loadJsonFromFile(argv[1]));
     // }
-    getQuestionTypeFromJson(loadJsonFromFile(""));
+    //getQuestionTypeFromJson(loadJsonFromFile(""));
     return 0;
 }
 

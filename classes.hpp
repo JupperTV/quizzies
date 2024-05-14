@@ -14,7 +14,8 @@ std::vector<std::string> mixItUp(std::vector<std::string> vector) {
 enum QuestionType {
     MultipleChoice,  // TODO: Make Example Questions of this type
     TrueOrFalse,
-    Estimation  // TODO: Make Example Questions of this type
+    Estimation,  // TODO: Make Example Questions of this type
+    NONE
 };
 
 // Could also be a struct
